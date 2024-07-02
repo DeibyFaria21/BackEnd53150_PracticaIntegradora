@@ -74,7 +74,7 @@ passport.authenticate("login", { failureRedirect: '/api/sessions/faillogin' }),
             role: user.role
         };
         console.log(user, 'login');
-        res.redirect('/api/products');
+        res.redirect('products');
     } catch (error) {
         return res.status(500).json({ error: 'Error en el servidor' });
     }

@@ -65,11 +65,16 @@ app.use("/fs/products", productsRouter)
 app.use("/fs/carts", cartsRouter)
 
 //Declaración de endpoints db
-app.use("/api", productsRouterdb)
+app.use("/api/products", productsRouterdb)
+app.use("/api/carts", cartsRouterdb)
+app.use("/api/messages", messagesRouterdb)
+app.use("/api/sessions", usersRouter)
+app.use("/", viewsRouter)
+/* app.use("/api", productsRouterdb)
 app.use("/api", cartsRouterdb)
 app.use("/api", messagesRouterdb)
 app.use("/api/sessions", usersRouter)
-app.use("/", viewsRouter)
+app.use("/", viewsRouter) */
 
 
 dotenv.config()

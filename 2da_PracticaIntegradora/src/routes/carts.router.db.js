@@ -10,7 +10,7 @@ const cartsRouterdb = Router()
 
 
 //Postman
-cartsRouterdb.post('/carts', async (req, res) => {
+cartsRouterdb.post('/', async (req, res) => {
     try {
         const result = await cartModel.create({})
         res.send({ result: 'success', payload: result })
@@ -20,7 +20,7 @@ cartsRouterdb.post('/carts', async (req, res) => {
 })
 
 //Postman Metodo GET/:cid
-cartsRouterdb.get('/carts/:cid', async (req, res) => {
+cartsRouterdb.get('/:cid', async (req, res) => {
     try {
         /* let {cid} = req.params */
         const cid = "664d73c255cc4eb27f46d21c"
@@ -33,15 +33,15 @@ cartsRouterdb.get('/carts/:cid', async (req, res) => {
         }
         const user = req.session.user
 
-        res.render('cartDetail', { products: result.products, user: user })
-        /* res.send({ result: 'success', payload: result }) */
+        /* res.render('cartDetail', { products: result.products, user: user }) */
+        res.send({ result: 'success', payload: result })
    } catch (error) {
        console.log(error)
    }
 })
 
 //Postman Metodo POST/:cid/product/:pid
-cartsRouterdb.post('/carts/:cid/product/:pid', async (req, res) => {
+cartsRouterdb.post('/:cid/product/:pid', async (req, res) => {
     try {
         /* const {cid, pid} = req.params; */
         const cid = req.params.cid;
@@ -65,7 +65,7 @@ cartsRouterdb.post('/carts/:cid/product/:pid', async (req, res) => {
 })
 
 //Metodo PUT/:cid/product/:pid
-cartsRouterdb.put('/carts/:cid/product/:pid', async (req, res) => {
+cartsRouterdb.put('/:cid/product/:pid', async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity: newQuantity } = req.body;
 
@@ -101,7 +101,7 @@ cartsRouterdb.put('/carts/:cid/product/:pid', async (req, res) => {
 });
     
 //Metodo DELETE/:cid/
-cartsRouterdb.delete('/carts/:cid', async (req, res) => {
+cartsRouterdb.delete('/:cid', async (req, res) => {
     const cartId = req.params.cid;
     try {
         
@@ -116,7 +116,7 @@ cartsRouterdb.delete('/carts/:cid', async (req, res) => {
         
         console.log(updatedCart, 'Carrito vaciado y actualizado');
 
-        return res.redirect(`/api/carts/664d73c255cc4eb27f46d21c`);
+        return res.redirect(`/carts/664d73c255cc4eb27f46d21c`);
         /* return res.status(200).json(updatedCart); */
 
     } catch (err) {
@@ -126,7 +126,7 @@ cartsRouterdb.delete('/carts/:cid', async (req, res) => {
 });
 
 //Metodo DELETE/:cid/product/:pid
-cartsRouterdb.delete('/carts/:cid/product/:pid', async (req, res) => {
+cartsRouterdb.delete('/:cid/product/:pid', async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     try {
@@ -148,7 +148,7 @@ cartsRouterdb.delete('/carts/:cid/product/:pid', async (req, res) => {
   
         console.log('Producto eliminado del carrito y datos actualizados y guardados');
         
-        return res.redirect(`/api/carts/664d73c255cc4eb27f46d21c`);
+        return res.redirect(`/carts/664d73c255cc4eb27f46d21c`);
 
         /* return res.status(200).json({ message: 'Producto eliminado del carrito con éxito' }); */
   
@@ -162,7 +162,7 @@ cartsRouterdb.delete('/carts/:cid/product/:pid', async (req, res) => {
   //METODOS PARA BOTONES
 
   //Metodo POST para agregar producto a carrito
-  cartsRouterdb.post('/carts/add', async (req, res) => {
+  cartsRouterdb.post('/add', async (req, res) => {
     const { productId, quantity } = req.body;
     const cartId = "664d73c255cc4eb27f46d21c";
 
@@ -196,7 +196,7 @@ cartsRouterdb.delete('/carts/:cid/product/:pid', async (req, res) => {
         await cart.save();
         console.log('Producto agregado al carrito');
 
-        res.redirect('/api/carts/664d73c255cc4eb27f46d21c');
+        res.redirect('/carts/664d73c255cc4eb27f46d21c');
 
     } catch (error) {
         console.error('Error al agregar el producto al carrito', error);
