@@ -1,6 +1,7 @@
 import { Router } from 'express';
-/* import userModel from '../dao/models/user.model.js'; */
 import passport from 'passport';
+import userModel from '../dao/models/user.model.js';
+import cartModel from '../dao/models/cart.model.js';
 
 
 const usersRouter = Router();
@@ -27,7 +28,11 @@ async (req, res) => {
       user.role = 'usuario'; 
     }
 
-    user = await user.save();
+    /* user = await user.save(); */
+
+    let newCart = await cartModel.create({ items: [], user: user._id });
+    user.cart = newCart._id;
+    await user.save();
     
     return res.redirect('/login');
   } catch (error) {
@@ -71,10 +76,11 @@ passport.authenticate("login", { failureRedirect: '/api/sessions/faillogin' }),
             last_name: user.last_name,
             email: user.email,
             age: user.age,
-            role: user.role
+            role: user.role,
+            cart: user.cart
         };
         console.log(user, 'login');
-        res.redirect('products');
+        res.redirect('/products');
     } catch (error) {
         return res.status(500).json({ error: 'Error en el servidor' });
     }
@@ -125,7 +131,14 @@ usersRouter.get('/github',passport.authenticate('github', { scope: ['user:email'
 
 usersRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login'}), async (req, res) => {
     req.session.user = req.user;
-    return res.redirect('/api/products');
+    return res.redirect('/products');
+})
+
+usersRouter.get('/current', (req, res) => {
+    return res.json({
+        user:req.user,
+        session:req.session
+    });
 })
 
 

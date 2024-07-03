@@ -1,5 +1,5 @@
 <div style="display: flex; gap: 50px">
-    <a href="/carts/664d73c255cc4eb27f46d21c" class="cart-text">
+    <a href="/carts/{{user.cart}}" class="cart-text">
       <h3>CARRITO</h3>
     </a>
 </div>
@@ -35,7 +35,7 @@
                 <strong>Categoría:</strong> {{this.category}}<br>
                 <strong>Thumbnail:</strong> {{this.thumbnail}}<br>
                 <br>
-                <form action="/api/carts/add" method="POST">
+                <form action="api/carts/add" method="POST">
                     <input type="hidden" name="productId" value="{{this._id}}">
                     <label for="quantity">Cantidad:</label>
                     <input type="number" name="quantity" value="1" min="1">

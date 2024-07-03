@@ -91,6 +91,10 @@ viewsRouter.get('/products', async (req, res) => {
             }
         };
         const user = req.session.user;
+        if (!user.cart) {
+            const cart = await cartModel.findOne({ user: user._id }).lean();
+            user.cart = cart._id;
+        }
 
         res.render('home', { payload: response, user: user });
 
@@ -117,8 +121,8 @@ viewsRouter.get('/products/:pid', async (req, res) => {
 
 viewsRouter.get('/carts/:cid', async (req, res) => {
     try {
-        /* let {cid} = req.params */
-        const cid = "664d73c255cc4eb27f46d21c"
+        let {cid} = req.params
+        /* let cid = "664d73c255cc4eb27f46d21c" */
         if(!cid){
            res.send({ status: 'error', error: 'Es necesario el ID de carrito' })
         }
